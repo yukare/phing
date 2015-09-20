@@ -1,0 +1,87 @@
+<project name="drush">
+  <target name="setup_drush">
+    <!-- Run drush from site dir -->
+    <property name="drush.root" value="${project.dir}"/>
+    
+    <!-- Add php file with Drush tasks -->
+    <dirname property="drushtask.dirname" file="${phing.file}"/>
+    <taskdef name="drush" classname="DrushTask"
+           classpath="${drushtask.dirname}/phing" />
+  </target>
+
+  <!-- Install Drupal -->
+  <target name="site-install"
+          description="Install drupal." 
+          depends="setup_drush">
+    <drush command="site-install" assume="yes">
+      <option name="locale" value="${install.language}" />
+      <option name="site-name" value="${project.sitename}" />
+      <option name="account-name" value="${install.account-name}" />
+      <option name="account-pass" value="${install.account-pass}" />
+      <option name="db-url" value="${install.db-url}" />
+      <param>${install.profile}</param>
+    </drush>
+
+    <phingcall target="site-post-install" />
+  </target>
+
+  <!-- Reinstall Drupal -->
+  <target name="site-reinstall"
+          description="Reinstall Drupal."
+          depends="setup_drush">
+    <drush command="site-install" assume="yes">
+      <option name="locale" value="${install.language}" />
+      <option name="site-name" value="${project.sitename}" />
+      <option name="account-name" value="${install.account-name}" />
+      <option name="account-pass" value="${install.account-pass}" />
+      <param>${install.profile}</param>
+    </drush>
+
+    <phingcall target="site-post-install" />
+  </target>
+
+  <!-- Tasks after install -->
+  <target name="site-post-install" hidden="true">
+    <!-- Used to export the config -->
+    <append destFile="${project.dir}/sites/default/settings.php">
+      $config_directories['deploy'] = '../config';
+    </append>
+
+    <!-- Change permissions from files folder -->
+    <chmod mode="0777">
+      <fileset dir="${project.dir}/sites/default/files">
+        <include name="**"/>
+      </fileset>
+    </chmod>
+
+    <!-- Clear all caches -->
+    <drush command="cr">
+      <param>all</param>
+    </drush>
+  </target>
+
+  <!-- Export the drupal configuration -->
+  <target name="config-export"
+          description="Export drupal configuration to ../config"
+          depends="setup_drush">
+    <drush command="config-export" assume="yes">
+      <param>deploy</param>
+    </drush>
+  </target>
+
+  <!-- Import drupal configuration -->
+  <target name="config-import"
+          description="Import drupal configuration to ../config"
+          depends="setup_drush">
+    <drush command="config-import" assume="yes">
+      <param>deploy</param>
+    </drush>
+  </target>
+  
+  <!-- Install a module -->
+  <target name="install-module" hidden="true">
+    <drush command="pm-enable" assume="yes">
+      <param>${module}</param>
+    </drush>
+  </target>
+</project>

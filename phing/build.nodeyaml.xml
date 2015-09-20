@@ -1,0 +1,14 @@
+<project name="apache" default="help">
+  <target name="setup_nodeyaml" hidden="true">
+    <!-- <taskdef name="updatefiles" classname="UpdateFilesTask"
+             classpath="${phing.file}/phing" /> -->
+  </target>
+
+  <target name="nodeyaml_update_config"
+          description="Update config files used in tests."
+          depends="setup_nodeyaml">
+    <updatefiles source="${project.dir}/modules/nodeyaml/nodeyaml_tests/config/install"
+                 destination="${project.dir}/../config"
+                 operation="export"/>
+  </target>
+</project>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jaguarirbe">
+  <target name="site-post-install-modules" hidden="true">
+    <property name="modules"
+              value="nodeyaml,book,simpletest,nodeyaml_tests,yukare_deploy" />
+    <foreach list="${modules}" param="module" target="install-module" delimiter="," /> 
+  </target>
+</project>

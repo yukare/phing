@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="apache" default="apache-help">
+  <target name="apache-config" description="Generates apache configuration">
+    <!-- Default value for Debian/Ubuntu -->
+    <property name="apache.vhost.dir" value="/etc/apache2/sites-available" override="false"/>
+    <input propertyName="apache.vhosts.dir"
+           defaultValue="/etc/apache2/sites-available"
+           message="Path to apache vhosts configuration directory"
+           promptChar=":" />
+    <input propertyName="apache.domain.name"
+           defaultValue=""
+           message="The name of domain to create:"
+           promptChar=":" />
+    <input propertyName="apache.domain.path"
+           defaultValue="/var/www/${apache.domain.name}"
+           message="Path to html root of domain(/var/www/${apache.domain.name}):"
+           promptChar=":" />
+    <copy file="${application.startdir}/phing/vhosts.conf.tpl"
+          tofile="${apache.vhost.dir}/${apache.domain.name}.conf"
+          overwrite="true">
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </copy>
+
+    <!-- Create the folders -->
+    <mkdir dir="/var/www/${apache.domain.name}/public_html" />
+    <mkdir dir="/var/www/${apache.domain.name}/log" />
+
+    <!-- Enable the domain and restart apache -->
+    <exec command="a2ensite ${apache.domain.name}.conf" />
+    <exec command="service apache2 restart" />
+  </target>
+  <target name="apache-help">
+  </target>
+</project>
