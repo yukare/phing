@@ -13,12 +13,10 @@
   <target name="help" description="Show help about this build file.">
   </target>
 
-
-
-  <!-- Copia os arquivos do phing do modulo jaguaribe para o root do drupal -->
+  <!-- Copy the files from phing module to drupal root -->
   <target name="update" description="Update phing files from module to drupal root.">
     <copy todir="${project.dir}">
-      <fileset dir="${project.dir}/modules/jaguaribe/phing">
+      <fileset dir="${project.dir}/modules/custom/phing">
         <include name="**"/>
       </fileset>
     </copy>
