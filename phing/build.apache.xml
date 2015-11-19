@@ -13,7 +13,7 @@
            promptChar=":" />
     <input propertyName="apache.domain.path"
            defaultValue="/var/www/${apache.domain.name}"
-           message="Path to html root of domain(/var/www/${apache.domain.name}):"
+           message="Path to root of domain(/var/www/${apache.domain.name}):"
            promptChar=":" />
     <copy file="${application.startdir}/phing/vhosts.conf.tpl"
           tofile="${apache.vhost.dir}/${apache.domain.name}.conf"
@@ -24,8 +24,8 @@
     </copy>
 
     <!-- Create the folders -->
-    <mkdir dir="/var/www/${apache.domain.name}/public_html" />
-    <mkdir dir="/var/www/${apache.domain.name}/log" />
+    <mkdir dir="${apache.domain.path}/public_html" />
+    <mkdir dir="${apache.domain.path}/log" />
 
     <!-- Enable the domain and restart apache -->
     <exec command="a2ensite ${apache.domain.name}.conf" />
