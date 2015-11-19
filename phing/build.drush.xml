@@ -9,6 +9,16 @@
            classpath="${drushtask.dirname}/phing" />
   </target>
 
+  <!-- Migrate from Drupal 7 to 8 -->
+  <target name="migrate"
+          description="Migrate Drupal from 7 to 8." 
+          depends="setup_drush">
+    <drush command="migrate-manifest" assume="yes">
+      <option name="legacy-db-url" value="${migrate.legacy-db-url}" />
+      <param>${migrate.manifest}</param>
+    </drush>
+  </target>
+  
   <!-- Install Drupal -->
   <target name="site-install"
           description="Install drupal." 
