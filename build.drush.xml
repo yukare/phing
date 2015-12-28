@@ -2,7 +2,7 @@
   <target name="setup_drush">
     <!-- Run drush from site dir -->
     <property name="drush.root" value="${project.dir}"/>
-    
+
     <!-- Add php file with Drush tasks -->
     <dirname property="drushtask.dirname" file="${phing.file}"/>
     <taskdef name="drush" classname="DrushTask"
@@ -11,17 +11,17 @@
 
   <!-- Migrate from Drupal 7 to 8 -->
   <target name="migrate"
-          description="Migrate Drupal from 7 to 8." 
+          description="Migrate Drupal from 7 to 8."
           depends="setup_drush">
-    <drush command="migrate-manifest" assume="yes">
+    <drush command="migrate-upgrade" assume="yes">
       <option name="legacy-db-url" value="${migrate.legacy-db-url}" />
-      <param>${migrate.manifest}</param>
+      <option name="legacy-root" value="${migrate.legacy-root}" />
     </drush>
   </target>
-  
+
   <!-- Install Drupal -->
   <target name="site-install"
-          description="Install drupal." 
+          description="Install drupal."
           depends="setup_drush">
     <drush command="site-install" assume="yes">
       <option name="locale" value="${install.language}" />
@@ -87,7 +87,7 @@
       <param>deploy</param>
     </drush>
   </target>
-  
+
   <!-- Install a module -->
   <target name="install-module" hidden="true">
     <drush command="pm-enable" assume="yes">
