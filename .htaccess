@@ -1,0 +1,2 @@
+# Protect this folder to not read from apache
+deny from all
