@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="jaguaribe">
   <target name="migrate-install-modules"
-          description="Install modules necessary in migrate and new site.">
+          description="Install modules necessary in migrate and new site."
+          depends="setup_drush">
     <property name="modules"
               value="book,migrate_upgrade,admin_toolbar,geshifilter,mollom" />
     <foreach list="${modules}" param="module" target="install-module" delimiter="," />
