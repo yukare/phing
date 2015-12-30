@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="apache" default="apache-help">
+<project name="apache">
   <target name="apache-config" description="Generates apache configuration">
     <!-- Default value for Debian/Ubuntu -->
     <property name="apache.vhost.dir" value="/etc/apache2/sites-available" override="false"/>
@@ -30,7 +30,5 @@
     <!-- Enable the domain and restart apache -->
     <exec command="a2ensite ${apache.domain.name}.conf" />
     <exec command="service apache2 restart" />
-  </target>
-  <target name="apache-help">
   </target>
 </project>

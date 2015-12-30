@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="jaguaribe" default="help">
   <!-- Load the file with properties -->
-  <!-- Create a copy of site.template.properties as site.properties and adjust as necessary -->
+  <!-- Create a copy of site.template.properties as site.properties and
+       adjust as necessary -->
   <property file="phing/site.properties" />
-  
+
   <!-- Import the other build files -->
   <import file="phing/build.apache.xml" />
   <import file="phing/build.drush.xml" />
   <import file="phing/build.nodeyaml.xml" />
   <import file="phing/build.jaguaribe.xml" />
 
+  <!-- this comes from http://www.hashbangcode.com/blog/listing-phing-targets-project -->
   <target name="help" description="Show help about this build file.">
+    <exec command="phing -f ${phing.file} -l" outputProperty="phing_targets" />
+    <echo>Please select a target.</echo>
+    <echo>${phing_targets}</echo>
   </target>
 
   <!-- Copy the files from phing module to drupal root -->
