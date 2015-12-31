@@ -7,4 +7,11 @@
               value="book,migrate_upgrade,admin_toolbar,geshifilter,mollom" />
     <foreach list="${modules}" param="module" target="install-module" delimiter="," />
   </target>
+  <target name="config-copy">
+    <copy todir="../../teste">
+      <fileset dir="../">
+        <include name="**"></include>
+      </fileset>
+    </copy>
+  </target>
 </project>
