@@ -23,6 +23,8 @@
   <target name="site-install"
           description="Install drupal."
           depends="setup_drush">
+    <phingcall target="site-before-install" />
+    
     <drush command="site-install" assume="yes">
       <option name="locale" value="${install.language}" />
       <option name="site-name" value="${project.sitename}" />
@@ -50,11 +52,29 @@
     <phingcall target="site-post-install" />
   </target>
 
+  <!-- Tasks before install -->
+  <target name="site-before-install" hidden="true">
+    <!-- Create and change permissions of settings.php
+         This make the filer ower to be the user, not the webserver -->
+    <chmod mode="0755" file="${project.dir}/sites/default" />     
+    <copy file="${project.dir}/sites/default/default.settings.php"
+          tofile="${project.dir}/sites/default/settings.php" overwrite="true"/>
+    <chmod mode="0777" file="${project.dir}/sites/default/settings.php" />       
+  </target>  
+  
   <!-- Tasks after install -->
   <target name="site-post-install" hidden="true">
-    <!-- Used to export the config -->
+    <!-- Used to export the config, drupal will change the file permissions, 
+         so need to set it again to 777 here. -->
+    <chmod mode="0777" file="${project.dir}/sites/default/settings.php" />
     <append destFile="${project.dir}/sites/default/settings.php">
       $config_directories['deploy'] = '../config';
+      
+      $settings['file_private_path'] = '${project.private_path}';
+      
+      if (file_exists(__DIR__ . '/settings.local.php')) {
+         include __DIR__ . '/settings.local.php';
+      }
     </append>
 
     <!-- Change permissions from files folder -->
@@ -64,6 +84,10 @@
       </fileset>
     </chmod>
 
+    <!-- Restrict the access to settings.php and default folder-->
+    <chmod mode="0444" file="${project.dir}/sites/default/settings.php" /> 
+    <chmod mode="0755" file="${project.dir}/sites/default" /> 
+    
     <!-- Clear all caches -->
     <drush command="cr">
       <param>all</param>
