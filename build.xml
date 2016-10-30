@@ -10,6 +10,7 @@
   <import file="phing/build.drush.xml" />
   <import file="phing/build.nodeyaml.xml" />
   <import file="phing/build.jaguaribe.xml" />
+  <import file="phing/build.coder.xml" />
 
   <!-- this comes from http://www.hashbangcode.com/blog/listing-phing-targets-project -->
   <target name="help" description="Show help about this build file.">
