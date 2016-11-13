@@ -99,7 +99,7 @@
           description="Export drupal configuration to ../config"
           depends="setup_drush">
     <drush command="config-export" assume="yes">
-      <param>deploy</param>
+      <param>current</param>
     </drush>
   </target>
 
@@ -108,7 +108,25 @@
           description="Import drupal configuration to ../config"
           depends="setup_drush">
     <drush command="config-import" assume="yes">
+      <param>current</param>
+    </drush>
+  </target>
+  
+  <!-- Export configuration with changes to deploy. -->
+  <target name="config-deploy"
+          description="Create the configuration to deploy"
+          depends="setup_drush">
+    <drush command="config-export" assume="yes">
+      <param>prov</param>
+    </drush>
+    <drush command="pmu" assume="yes">
+      <param>webprofiler devel devel_generate kint views_ui</param>
+    </drush>
+    <drush command="config-export" assume="yes">
       <param>deploy</param>
+    </drush>
+    <drush command="config-import" assume="yes">
+      <param>prov</param>
     </drush>
   </target>
 
