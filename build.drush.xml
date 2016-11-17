@@ -105,11 +105,20 @@
   </target>
 
   <!-- Import drupal configuration -->
-  <target name="config-import"
+  <target name="config-deploy-import"
           description="Import drupal configuration to ../config"
           depends="setup_drush">
     <drush command="config-import" assume="yes">
       <param>current</param>
+    </drush>
+  </target>
+  
+  <!-- Import drupal configuration from deploy-->
+  <target name="config-import"
+          description="Import drupal configuration from ../deploy"
+          depends="setup_drush">
+    <drush command="config-import" assume="yes">
+      <param>deploy</param>
     </drush>
   </target>
   
@@ -126,8 +135,6 @@
     <drush command="config-export" assume="yes">
       <param>deploy</param>
     </drush>
-    <delete file="${project.dir}/../deploy.tar.gz" />
-    <exec command="tar -zcvf ../deploy.tar.gz *" dir="${project.dir}/../config" />
     <drush command="config-import" assume="yes">
       <param>prov</param>
     </drush>
