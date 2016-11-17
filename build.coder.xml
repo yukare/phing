@@ -1,10 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="coder">
-  <!-- The property coder.ignore list is a lsit of files/folders to ignore,
-       configre it at site.properties file. -->
+  <!-- The property coder.ignore list is a list of files/folders to ignore,
+       configure it at site.properties file. -->
+  <!-- This will run coder inside the folder modules/custom, if you want to
+       change, you can change the value here or use -D option from phing like:
+       phing coder -Dmodule=custom/mymodulename -->
   <property name="module" value="custom"/>
   <target name="coder">
     <!-- Make the default module all modules inside custom -->
-    
     <exec executable="phpcs" dir="${project.dir}" passthru="true">
       <arg value="--standard=Drupal" />
       <arg value="--extensions=php,module,inc,install,test,profile,theme,css,info,txt,md" />
@@ -12,7 +15,8 @@
       <arg value="modules/${module}" />
     </exec>
   </target>
-  
+
+  <!-- This use the drupal pratice set of rules -->
   <target name="coder-pratice">
     <!-- Make the default module all modules inside custom -->
     <property name="module" value="custom"/>
@@ -23,7 +27,8 @@
       <arg value="modules/${module}" />
     </exec>
   </target>
-  
+
+  <!-- Some of the coding violations can be fixed with this tool -->
   <target name="coder-fix">
     <!-- Make the default module all modules inside custom -->
     <property name="module" value="custom"/>
@@ -34,22 +39,24 @@
       <arg value="modules/${module}" />
     </exec>
   </target>
-  
+
+  <!-- not working -->
   <target name="eslint">
     <exec executable="eslint" dir="${project.dir}" passthru="true">
       <arg value="--ignore-path=${phing.file}/.eslintignore" />
       <arg value="modules/${module}" />
-    </exec>  
+    </exec>
   </target>
-  
+
+  <!-- not working -->
   <target name="csslint">
     <exec executable="csslint" dir="${project.dir}" passthru="true">
       <arg value="modules/${module}" />
-    </exec>  
+    </exec>
   </target>
-  
+
   <target name="coder-all" depends="coder, coder-pratice, eslint, csslint">
 
   </target>
-  
-</project>  
+
+</project>

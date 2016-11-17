@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="drush">
   <target name="setup_drush">
     <!-- Run drush from site dir -->
@@ -125,6 +126,8 @@
     <drush command="config-export" assume="yes">
       <param>deploy</param>
     </drush>
+    <delete file="${project.dir}/../deploy.tar.gz" />
+    <exec command="tar -zcvf ../deploy.tar.gz *" dir="${project.dir}/../config" />
     <drush command="config-import" assume="yes">
       <param>prov</param>
     </drush>

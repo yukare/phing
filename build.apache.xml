@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="apache">
+  <!-- Add a new vhost site to local development.
+       Must run with sudo or will have permissions problems. -->
+  <!-- If you want to change the vhost file created, change the
+       template at vhosts.conf.tpl -->
   <target name="apache-config" description="Generates apache configuration">
     <!-- Default value for Debian/Ubuntu -->
     <property name="apache.vhost.dir" value="/etc/apache2/sites-available" override="false"/>
